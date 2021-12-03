@@ -1,0 +1,34 @@
+Logger
+
+cada mensaje de log tenga un texto peersonalizado
+
+no solo errores, sino multiples tags (definidos por el usuario)
+
+filtros - niveles, tags, texto, callstack, clase, ...
+filtro en runtime
+
+conseguir callstack
+
+que se pueda descativar en compilacion / ejecucion
+
+formato de guardado variable: XML, JSON, YAML
+
+nro entrada
+timestamp
+process id
+thread id
+
+thread safe
+
+libreria dinamica
+libreria estatica / compatibilidad binaria
+
+que pueda auto breakpointearse
+
+rotacion de log - tamaño, tiempo
+
+dump de variables
+
+auto log - loguear en cierre de scope, y permitir overridear
+
+logueo remoto, por consola, por archivo
