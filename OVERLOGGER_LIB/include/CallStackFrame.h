@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
 #include <chrono>
+#include "ICallStackFrame.h"
 
-class CallStackFrame
+class CallStackFrame : public ICallStackFrame
 {
 private:
     std::string mFunctionName;
@@ -17,22 +18,22 @@ public:
     {
     }
 
-    const std::string &getFunctionName() const
+    virtual const std::string &getFunctionName() const override
     {
         return mFunctionName;
     }
 
-    const std::string &getSourceFileName() const
+    virtual const std::string &getSourceFileName() const override
     {
         return mSourceFileName;
     }
 
-    unsigned long getCodeLine() const
+    virtual unsigned long getCodeLine() const override
     {
         return mCodeLine;
     }
 
-    std::chrono::milliseconds getTimestamp() const
+    virtual std::chrono::milliseconds getTimestamp() const override
     {
         return mTimestamp;
     }

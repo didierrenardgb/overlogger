@@ -1,6 +1,6 @@
 #pragma once
 
-#include "CallStack.h"
+#include "ICallStack.h"
 
 class ICallStackFactory
 {

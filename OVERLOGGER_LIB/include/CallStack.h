@@ -1,16 +1,22 @@
 #pragma once
 
 #include <vector>
-#include "CallStackFrame.h"
+#include "ICallStack.h"
 
-// TODO: ICallStack
-// TODO: CallStackNull
 // TODO: namespaces
 
-class CallStack
+class CallStack : public ICallStack
 {
 private:
-    std::vector<CallStackFrame> mCallStackFrames;
+    std::vector<ICallStackFrame> mCallStackFrames;
     CallStack() = default;
+    CallStack(const CallStack& cs) = delete;
+    CallStack(CallStack&& cs) = delete;
+
     friend class CallStackFactory;
+
+public:
+    virtual size_t getSize() const override;
+    virtual const ICallStackFrame &getFrame(size_t index) const override;
+    virtual const std::vector<ICallStackFrame> &getFrameList() const override;
 };
