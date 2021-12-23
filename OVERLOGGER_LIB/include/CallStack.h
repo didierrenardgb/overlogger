@@ -9,6 +9,7 @@ namespace olg
     {
     private:
         std::vector<ICallStackFrame> mCallStackFrames;
+        CallStack(const std::vector<ICallStackFrame>& frames) : mCallStackFrames{frames} {};
         CallStack() = default;
         CallStack(const CallStack &cs) = delete;
         CallStack(CallStack &&cs) = delete;

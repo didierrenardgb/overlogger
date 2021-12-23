@@ -1,11 +1,12 @@
 #pragma once
-#include "CallStack.h"
+#include "ICallStack.h"
+#include "memory"
 
 namespace olg
 {
     class ICallStackRetriever
     {
     public:
-        virtual CallStack retrieve() = 0;
+        virtual std::unique_ptr<ICallStack> retrieve() = 0;
     };
 }
