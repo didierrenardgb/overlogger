@@ -3,31 +3,33 @@
 #include <chrono>
 #include "ICallStackFrame.h"
 
-class CallStackFrameNull : public ICallStackFrame
+namespace olg
 {
-private:
-    inline static const std::string sFunctionName = "?NULL";
-    inline static const std::string sSourceFileName = "?NULL";
-
-public:
-    virtual const std::string &getFunctionName() const override
+    class CallStackFrameNull : public ICallStackFrame
     {
-        return sFunctionName;
-    }
+    private:
+        inline static const std::string sFunctionName = "?NULL";
+        inline static const std::string sSourceFileName = "?NULL";
 
-    virtual const std::string &getSourceFileName() const override
-    {
-        return sSourceFileName;
-    }
+    public:
+        virtual const std::string &getFunctionName() const override
+        {
+            return sFunctionName;
+        }
 
-    virtual unsigned long getCodeLine() const override
-    {
-        return 0;
-    }
+        virtual const std::string &getSourceFileName() const override
+        {
+            return sSourceFileName;
+        }
 
-    virtual std::chrono::milliseconds getTimestamp() const override
-    {
-        return std::chrono::milliseconds{};
-    }
+        virtual unsigned long getCodeLine() const override
+        {
+            return 0;
+        }
 
-};
+        virtual std::chrono::milliseconds getTimestamp() const override
+        {
+            return std::chrono::milliseconds{};
+        }
+    };
+}

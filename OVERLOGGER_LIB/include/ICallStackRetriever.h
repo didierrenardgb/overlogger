@@ -1,7 +1,11 @@
 #pragma once
 #include "CallStack.h"
 
-class ICallStackRetriever {
-public:
-    virtual CallStack retrieve() = 0;
-};
+namespace olg
+{
+    class ICallStackRetriever
+    {
+    public:
+        virtual CallStack retrieve() = 0;
+    };
+}

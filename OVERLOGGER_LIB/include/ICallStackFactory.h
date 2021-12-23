@@ -1,9 +1,10 @@
 #pragma once
 
 #include "ICallStack.h"
-
-class ICallStackFactory
+namespace olg
 {
-public:
-    
-};
+    class ICallStackFactory
+    {
+    public:
+    };
+}
