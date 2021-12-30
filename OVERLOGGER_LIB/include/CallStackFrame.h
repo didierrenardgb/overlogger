@@ -1,6 +1,5 @@
 #pragma once
 #include <string>
-#include <chrono>
 #include "ICallStackFrame.h"
 
 namespace olg
@@ -15,8 +14,8 @@ namespace olg
 
     public:
         CallStackFrame(const std::string &functionName, const std::string &sourceFileName,
-                       unsigned long codeLine, std::chrono::milliseconds timestamp)
-            : mFunctionName{functionName}, mSourceFileName{sourceFileName}, mCodeLine{codeLine}, mTimestamp{timestamp}
+                       unsigned long codeLine)
+            : mFunctionName{functionName}, mSourceFileName{sourceFileName}, mCodeLine{codeLine}
         {
         }
 

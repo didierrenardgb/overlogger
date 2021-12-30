@@ -6,6 +6,13 @@ namespace olg
 {
     class CallStackRetriever : public ICallStackRetriever
     {
-        virtual std::unique_ptr<ICallStack> retrieve();
+    public:
+        virtual std::unique_ptr<ICallStack> retrieve() override;
+        CallStackRetriever(std::unique_ptr<ICallStackFactory>&& callStackFactory);
+        ~CallStackRetriever();
+
+    private:
+        HANDLE mProcessHandle;
+        std::unique_ptr<ICallStackFactory> mCallStackFactory;
     };
 }
