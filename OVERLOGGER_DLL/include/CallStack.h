@@ -3,17 +3,19 @@
 #include <vector>
 #include "ICallStack.h"
 
+
 namespace olg
 {
+    class CallStackImpl; // forward declaration
+
     class CallStack : public ICallStack
     {
     private:
-        std::vector<std::unique_ptr<ICallStackFrame>> mCallStackFrames;
-        CallStack(const std::vector<std::unique_ptr<ICallStackFrame>>& frames) : mCallStackFrames{frames} {};
-        CallStack() = default;
+        std::unique_ptr<CallStackImpl> mCallStackImpl;
+        CallStack(std::vector<std::unique_ptr<ICallStackFrame>>&& frames);
         CallStack(const CallStack &cs) = delete;
         CallStack(CallStack &&cs) = delete;
-
+        ~CallStack();
         friend class CallStackFactory;
 
     public:
