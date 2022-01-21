@@ -7,9 +7,10 @@ namespace olg
 
     std::unique_ptr<ICallStack> CallStackFactory::create(std::vector<std::unique_ptr<ICallStackFrame>> &&frames)
     {
-        if (not frames.empty())
+        if (!frames.empty())
         {
-            return std::make_unique<CallStack>(std::forward<std::vector<std::unique_ptr<ICallStackFrame>>>(frames));
+            //return std::make_unique<CallStack>(std::forward<std::vector<std::unique_ptr<ICallStackFrame>>>(frames));
+            return CallStack::makeUnique(std::forward<std::vector<std::unique_ptr<ICallStackFrame>>>(frames));
         }
         return std::make_unique<CallStackNull>();
     }

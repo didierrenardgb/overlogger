@@ -8,3 +8,10 @@ bin
 **/*.dll
 **/*.a
 **/*.exe
+**/v16
+**/*.dir
+**/.vs
+OVERLOGGER_DLL/Debug
+**/x64
+**/*.vcxproj*
+**/*.sln

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CallStackImpl.h"
+#include "ICallStackFrame.h"
 
 namespace olg
 {
@@ -8,6 +9,8 @@ namespace olg
     : mCallStackFrames{std::forward<std::vector<std::unique_ptr<ICallStackFrame>>>(frames)}
     {
     }
+
+    CallStackImpl::~CallStackImpl() = default;
 
     size_t CallStackImpl::getSize() const
     {

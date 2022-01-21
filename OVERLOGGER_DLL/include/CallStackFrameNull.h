@@ -1,6 +1,8 @@
 #pragma once
+
 #include <string>
 #include <chrono>
+
 #include "ICallStackFrame.h"
 
 namespace olg

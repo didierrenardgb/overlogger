@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
 
-project(ddd)
+project(OverLogger)
 
 get_filename_component(abs_include_dir "../include/" REALPATH)
 set(include_dirs ${abs_include_dir})

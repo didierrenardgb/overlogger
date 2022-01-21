@@ -1,9 +1,11 @@
 #pragma once
-#include "ICallStack.h"
-#include "memory"
+
+#include <memory>
 
 namespace olg
 {
+    class ICallStack;
+
     class ICallStackRetriever
     {
     public:

@@ -1,5 +1,7 @@
 #pragma once
+
 #include <string>
+
 #include "ICallStackFrame.h"
 
 namespace olg

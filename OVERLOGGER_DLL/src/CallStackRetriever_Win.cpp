@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include <dbghelp.h>
 
+#include "ICallStack.h"
 #include "CallStackRetriever.h"
 #include "CallStackFactory.h"
 #include "CallStackFrame.h"

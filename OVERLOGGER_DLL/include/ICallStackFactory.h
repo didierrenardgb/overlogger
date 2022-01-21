@@ -1,10 +1,13 @@
 #pragma once
 
 #include <memory>
-#include "ICallStack.h"
+#include <vector>
 
 namespace olg
 {
+    class ICallStack;
+    class ICallStackFrame;
+
     class ICallStackFactory
     {
     public:

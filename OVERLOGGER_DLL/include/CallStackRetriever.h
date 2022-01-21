@@ -4,6 +4,8 @@
 
 namespace olg
 {
+    class ICallStackFactory;
+
     class CallStackRetriever : public ICallStackRetriever
     {
     public:
