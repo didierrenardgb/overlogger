@@ -1,5 +1,3 @@
-#pragma once
-
 #include "CallStackImpl.h"
 #include "ICallStackFrame.h"
 

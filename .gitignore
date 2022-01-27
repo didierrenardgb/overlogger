@@ -1,4 +1,5 @@
 .vscode
+.editorconfig
 bin
 **/build
 **/CMakeFiles
