@@ -14,7 +14,7 @@ string(TOLOWER ${CMAKE_GENERATOR} GENERATOR_NAME)
 string(REPLACE " " "_" GENERATOR_NAME ${GENERATOR_NAME})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY bin/${GENERATOR_NAME}/)
 
-add_subdirectory("../OVERLOGGER_DLL/" "build/")
+# add_subdirectory("../OVERLOGGER_DLL/" "build/")
 get_filename_component(abs_include_dir "../OVERLOGGER_DLL/include/" REALPATH)
 list(APPEND include_dirs ${abs_include_dir})
 
