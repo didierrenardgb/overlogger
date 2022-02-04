@@ -12,18 +12,25 @@ constexpr ULONG TRACE_MAX_FUNCTION_NAME_LENGTH = 1024;
 
 namespace olg
 {
+    class CallStackRetrieverImpl {
+    public:
+        HANDLE mProcessHandle;
+        std::unique_ptr<ICallStackFactory> mCallStackFactory;
+        CallStackRetrieverImpl(std::unique_ptr<ICallStackFactory>&& callStackFactory)
+            : mCallStackFactory{ std::move(callStackFactory) }, mProcessHandle{ GetCurrentProcess() }
+        {
+            SymInitialize(mProcessHandle, NULL, TRUE);
+        }
+    };
 
     CallStackRetriever::CallStackRetriever(std::unique_ptr<ICallStackFactory>&& callStackFactory)
-        : mCallStackFactory{std::move(callStackFactory)}
-    {
-        mProcessHandle = GetCurrentProcess();
-        SymInitialize(mProcessHandle, NULL, TRUE);
-    }
+        : mImpl{ std::make_unique<CallStackRetrieverImpl>(std::move(callStackFactory)) }
+    {}
 
     CallStackRetriever::~CallStackRetriever()
     {
-        SymCleanup(mProcessHandle);
-        mProcessHandle = nullptr;
+        SymCleanup(mImpl->mProcessHandle);
+        mImpl->mProcessHandle = nullptr;
     }
 
     std::unique_ptr<ICallStack> CallStackRetriever::retrieve()
@@ -37,16 +44,16 @@ namespace olg
         IMAGEHLP_LINE64 line;
         DWORD displacement;
         line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
-        
-        
+
+
         std::vector<std::unique_ptr<ICallStackFrame>> frames;
 
         for (int i = 0; i < numberOfFrames; i++)
         {
             std::unique_ptr<ICallStackFrame> frame;
             DWORD64 address = (DWORD64)(backTrace[i]);
-            SymFromAddr(mProcessHandle, address, NULL, &sinfo);
-            if (SymGetLineFromAddr64(mProcessHandle, address, &displacement, &line))
+            SymFromAddr(mImpl->mProcessHandle, address, NULL, &sinfo);
+            if (SymGetLineFromAddr64(mImpl->mProcessHandle, address, &displacement, &line))
             {
                 /// CHAR SYMBOL_INFO::Name[1] ???
                 frame = std::make_unique<CallStackFrame>(std::to_string(sinfo.Address) + ">" + std::string(sinfo.Name), line.FileName, line.LineNumber);
@@ -58,7 +65,7 @@ namespace olg
             frames.push_back(std::move(frame));
         }
 
-        return mCallStackFactory->create(std::move(frames));
+        return mImpl->mCallStackFactory->create(std::move(frames));
     }
 
 }

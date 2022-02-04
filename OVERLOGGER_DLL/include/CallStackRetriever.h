@@ -5,6 +5,7 @@
 namespace olg
 {
     class ICallStackFactory;
+    class CallStackRetrieverImpl; //forward declaration
 
     class CallStackRetriever : public ICallStackRetriever
     {
@@ -14,7 +15,6 @@ namespace olg
         ~CallStackRetriever();
 
     private:
-        HANDLE mProcessHandle;
-        std::unique_ptr<ICallStackFactory> mCallStackFactory;
+        std::unique_ptr<CallStackRetrieverImpl> mImpl;
     };
 }
