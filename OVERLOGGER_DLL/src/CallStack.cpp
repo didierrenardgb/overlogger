@@ -16,21 +16,20 @@ namespace olg
     {
         return mCallStackImpl->getSize();
     }
-    const ICallStackFrame &CallStack::getFrame(size_t index) const
+    const ICallStackFrame& CallStack::getFrame(size_t index) const
     {
         return mCallStackImpl->getFrame(index);
     }
-    const std::vector<std::unique_ptr<ICallStackFrame>> &CallStack::getFrameList() const
+    const std::vector<std::unique_ptr<ICallStackFrame>>& CallStack::getFrameList() const
     {
         return mCallStackImpl->getFrameList();
     }
 
-    CallStack::CallStack(std::vector<std::unique_ptr<ICallStackFrame>>&& frames){
-        // TODO
-        // mCallStackImpl = std::make_unique
+    CallStack::CallStack(std::vector<std::unique_ptr<ICallStackFrame>>&& frames)
+        : mCallStackImpl(std::make_unique<CallStackImpl>(std::move(frames)))
+    {
+
     }
 
-    CallStack::~CallStack(){
-        // TODO
-    }
+    CallStack::~CallStack() {}
 }
