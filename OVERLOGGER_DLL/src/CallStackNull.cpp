@@ -3,6 +3,17 @@
 
 namespace olg
 {
+	CallStackNull::CallStackNull() = default;
+
+	std::unique_ptr<ICallStack> CallStackNull::makeUnique()
+	{
+		return std::unique_ptr<CallStackNull>(new CallStackNull());
+	}
+
+	size_t CallStackNull::getSize() const
+	{ 
+		return 0u; 
+	};
 
     const ICallStackFrame& CallStackNull::getFrame(size_t index) const
     {

@@ -12,6 +12,6 @@ namespace olg
         virtual const std::string &getSourceFileName() const = 0;
         virtual unsigned long getCodeLine() const = 0;
         virtual std::chrono::milliseconds getTimestamp() const = 0;
-        virtual ~ICallStackFrame() = default;
+		virtual ~ICallStackFrame();
     };
 }
