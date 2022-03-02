@@ -1,7 +1,6 @@
 #pragma once
 
 #include <string>
-#include <chrono>
 
 namespace olg
 {
@@ -11,7 +10,7 @@ namespace olg
         virtual const std::string &getFunctionName() const = 0;
         virtual const std::string &getSourceFileName() const = 0;
         virtual unsigned long getCodeLine() const = 0;
-        virtual std::chrono::milliseconds getTimestamp() const = 0;
+        virtual unsigned long long getAddress() const = 0;
 		virtual ~ICallStackFrame();
     };
 }

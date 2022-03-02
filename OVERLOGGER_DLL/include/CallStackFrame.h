@@ -14,7 +14,7 @@ namespace olg
 		std::unique_ptr<CallStackFrameImpl> mImpl;
 
     public:
-		CallStackFrame(const std::string &functionName, const std::string &sourceFileName,
+		CallStackFrame(unsigned long long address, const std::string &functionName, const std::string &sourceFileName,
 			unsigned long codeLine);
 		~CallStackFrame();	//Here we declare the destructor because otherwise the forward declaration of CallStackFrameImpl would be incomplete 
 							//and the compiler based implementation of the ~CallStackFrame wouldn't know how to destruct mImpl
@@ -22,6 +22,6 @@ namespace olg
 		virtual const std::string &getFunctionName() const override;
 		virtual const std::string &getSourceFileName() const override;
 		virtual unsigned long getCodeLine() const override;
-		virtual std::chrono::milliseconds getTimestamp() const override;
+        virtual unsigned long long getAddress() const override;
     };
 }

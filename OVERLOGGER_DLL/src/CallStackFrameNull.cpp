@@ -1,4 +1,4 @@
-#include <CallStackFrameNull.h>
+#include "CallStackFrameNull.h"
 
 namespace olg {
     const std::string& CallStackFrameNull::getFunctionName() const
@@ -18,9 +18,9 @@ namespace olg {
         return 0;
     }
 
-    std::chrono::milliseconds CallStackFrameNull::getTimestamp() const
+    unsigned long long CallStackFrameNull::getAddress() const
     {
-        return std::chrono::milliseconds{};
+        return 0;
     }
 }
 

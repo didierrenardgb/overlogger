@@ -18,3 +18,4 @@ OVERLOGGER_DLL/Debug
 **/x64
 **/*.vcxproj*
 **/*.sln
+Win32
