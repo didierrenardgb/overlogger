@@ -1,6 +1,11 @@
+#pragma once
+#include <memory>
+
+#include "IDynamicLibraryFunctionPointer.h"
+
 class DynamicLibraryFunctionPointerWindows : public IDynamicLibraryFunctionPointer
 {
-        ~DynamicLibraryFunctionPointerWindows() = default;
+	~DynamicLibraryFunctionPointerWindows();
     protected:
         DynamicLibraryFunctionPointerWindows(void*);
         DynamicLibraryFunctionPointerWindows(DynamicLibraryFunctionPointerWindows const& other) = delete;
@@ -8,5 +13,5 @@ class DynamicLibraryFunctionPointerWindows : public IDynamicLibraryFunctionPoint
         void* handle() const override;
         friend class DynamicLibraryWindows;
         class DynamicLibraryFunctionPointerWindowsImpl;
-        std::unique_ptr<DynamicLibraryFunctionPointerImpl> mImpl;
+        std::unique_ptr<DynamicLibraryFunctionPointerWindowsImpl> mImpl;
 };

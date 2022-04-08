@@ -1,3 +1,5 @@
+#pragma once
+
 template<class RetType, typename... Args>
 class DynamicLibraryFunctionCaller : public IDynamicLibraryFunctionCaller
 {
@@ -17,6 +19,7 @@ class DynamicLibraryFunctionCaller : public IDynamicLibraryFunctionCaller
         std::function<void(RetType&&)> mOnCalled;
         std::tuple<Args...> mArgs;
 };
+
 template<class RetType, typename... Args>
 void call(std::unique_ptr<IDynamicLibraryFunctionPointer> const& functionPointer, std::function<void(RetType&&)> onCalled, Args&& args...)
 {

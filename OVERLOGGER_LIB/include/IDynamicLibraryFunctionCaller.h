@@ -1,3 +1,5 @@
+#include <memory>
+
 class IDynamicLibraryFunctionCaller
 {
     public:
