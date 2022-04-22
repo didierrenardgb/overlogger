@@ -8,7 +8,7 @@ namespace olg::dl {
 
 	class IDynamicLibraryLoader {
 	public:
-		virtual std::unique_ptr<IDynamicLibrary> load(const std::string &path) = 0;
+		virtual std::unique_ptr<IDynamicLibrary> load(const std::string &path) const = 0;
 	};
 }
 
