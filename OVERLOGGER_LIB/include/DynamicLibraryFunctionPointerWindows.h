@@ -3,9 +3,11 @@
 
 #include "IDynamicLibraryFunctionPointer.h"
 
-class DynamicLibraryFunctionPointerWindows : public IDynamicLibraryFunctionPointer
+namespace olg::dl
 {
-	~DynamicLibraryFunctionPointerWindows();
+    class DynamicLibraryFunctionPointerWindows : public IDynamicLibraryFunctionPointer
+    {
+        ~DynamicLibraryFunctionPointerWindows();
     protected:
         DynamicLibraryFunctionPointerWindows(void*);
         DynamicLibraryFunctionPointerWindows(DynamicLibraryFunctionPointerWindows const& other) = delete;
@@ -14,4 +16,7 @@ class DynamicLibraryFunctionPointerWindows : public IDynamicLibraryFunctionPoint
         friend class DynamicLibraryWindows;
         class DynamicLibraryFunctionPointerWindowsImpl;
         std::unique_ptr<DynamicLibraryFunctionPointerWindowsImpl> mImpl;
-};
+
+    };
+
+}

@@ -3,7 +3,7 @@
 #include <memory>
 
 
-namespace olg {
+namespace olg::dl {
 	class IDynamicLibrary;
 
 	class IDynamicLibraryLoader {

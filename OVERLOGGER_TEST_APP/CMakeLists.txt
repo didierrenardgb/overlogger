@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.17)
 
 project(OVERLOGGER_TEST_APP)
 
+set(CMAKE_CXX_STANDARD 17)
+
 get_filename_component(abs_include_dir "include/" REALPATH)
 set(include_dirs ${abs_include_dir})
     

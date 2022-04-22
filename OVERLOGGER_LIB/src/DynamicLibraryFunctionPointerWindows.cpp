@@ -1,18 +1,20 @@
 
 #include "DynamicLibraryFunctionPointerWindows.h"
-
-DynamicLibraryFunctionPointerWindows::~DynamicLibraryFunctionPointerWindows() = default;
-
-struct DynamicLibraryFunctionPointerWindows::DynamicLibraryFunctionPointerWindowsImpl
+namespace olg::dl
 {
-	DynamicLibraryFunctionPointerWindowsImpl(void* functionPtr) : mFunctionPointer(functionPtr) {}
-    void* mFunctionPointer;
-};
+    DynamicLibraryFunctionPointerWindows::~DynamicLibraryFunctionPointerWindows() = default;
 
-void* DynamicLibraryFunctionPointerWindows::handle() const
-{
-    return mImpl->mFunctionPointer;
+    struct DynamicLibraryFunctionPointerWindows::DynamicLibraryFunctionPointerWindowsImpl
+    {
+        DynamicLibraryFunctionPointerWindowsImpl(void* functionPtr) : mFunctionPointer(functionPtr) {}
+        void* mFunctionPointer;
+    };
+
+    void* DynamicLibraryFunctionPointerWindows::handle() const
+    {
+        return mImpl->mFunctionPointer;
+    }
+
+    DynamicLibraryFunctionPointerWindows::DynamicLibraryFunctionPointerWindows(void* handle) :
+        mImpl(std::make_unique<DynamicLibraryFunctionPointerWindowsImpl>(handle)) { }
 }
-
-DynamicLibraryFunctionPointerWindows::DynamicLibraryFunctionPointerWindows(void* handle) :
-	mImpl(std::make_unique<DynamicLibraryFunctionPointerWindowsImpl>(handle)) { }

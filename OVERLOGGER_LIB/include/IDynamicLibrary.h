@@ -1,6 +1,6 @@
 #pragma once
 
-namespace olg {
+namespace olg::dl {
 	class IDynamicLibrary {
 
 	};
