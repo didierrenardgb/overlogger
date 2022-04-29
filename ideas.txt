@@ -32,3 +32,5 @@ dump de variables
 auto log - loguear en cierre de scope, y permitir overridear
 
 logueo remoto, por consola, por archivo
+
+cargado dinámico de la librería
