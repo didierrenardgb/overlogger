@@ -15,11 +15,14 @@ namespace olg::dl
         using type = typename std::conditional<std::is_pointer_v<T>, std::unique_ptr<std::remove_pointer_t<T>>, T>::type;
     };
 
+    template<class T>
+    using Return_t = typename Return<T>::type;
+
     template<class RetType, typename... Args>
     class DynamicLibraryFunctionCaller : public IDynamicLibraryFunctionCaller
     {
     public:
-        using OnCalledType = std::function<void(typename Return<RetType>::type&&)>;
+        using OnCalledType = std::function<void(Return_t<RetType>&&)>;
 
         DynamicLibraryFunctionCaller(std::unique_ptr<IDynamicLibraryFunctionPointer> const& functionPointer, OnCalledType const& onCalled, Args&&... args) :
             mFunctionPointer(functionPointer)
@@ -49,10 +52,10 @@ namespace olg::dl
     };
 
     template<class RetType, typename... Args>
-    typename Return<RetType>::type call(std::unique_ptr<IDynamicLibraryFunctionPointer> const& functionPointer, Args&&... args)
+    Return_t<RetType> call(std::unique_ptr<IDynamicLibraryFunctionPointer> const& functionPointer, Args&&... args)
     {
-        typename Return<RetType>::type result;
-        DynamicLibraryFunctionCaller<RetType, Args...> caller(functionPointer, [&result](typename Return<RetType>::type&& ret)
+        Return_t<RetType> result;
+        DynamicLibraryFunctionCaller<RetType, Args...> caller(functionPointer, [&result](Return_t<RetType>&& ret)
         {
             result = std::move(ret);
         }, std::forward<Args>(args)...);
