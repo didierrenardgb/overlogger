@@ -9,7 +9,7 @@ set(include_dirs ${abs_include_dir})
     
 include_directories(${include_dirs})
     
-file(GLOB_RECURSE header_files "include/*.h")
+file(GLOB_RECURSE header_files "include/*.h" "src/*.h")
 file(GLOB_RECURSE src_files "src/*.cpp")
 
 string(TOLOWER ${CMAKE_GENERATOR} GENERATOR_NAME)
