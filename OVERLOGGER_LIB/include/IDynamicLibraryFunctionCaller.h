@@ -9,6 +9,9 @@ namespace olg::dl
     public:
         virtual void call() const = 0;
     protected:
-        virtual void* handle(std::unique_ptr<IDynamicLibraryFunctionPointer> const& functionPointer) const;
+		virtual void* handle(std::unique_ptr<IDynamicLibraryFunctionPointer> const& functionPointer) const 
+		{
+			return functionPointer->handle(); // TODO: pasar a un cpp
+		}
     };
 }

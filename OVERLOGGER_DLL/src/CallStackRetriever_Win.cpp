@@ -77,3 +77,8 @@ namespace olg
     }
 
 }
+
+olg::ICallStackRetriever* createCallStackRetriever()
+{
+	return new olg::CallStackRetriever{ std::make_unique<olg::CallStackFactory>() };
+}

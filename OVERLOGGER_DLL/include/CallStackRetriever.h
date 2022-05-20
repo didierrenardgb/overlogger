@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ICallStackRetriever.h"
+#include "DllUtils.h"
 
 namespace olg
 {
@@ -17,4 +18,9 @@ namespace olg
     private:
         std::unique_ptr<CallStackRetrieverImpl> mImpl;
     };
+}
+
+extern "C"
+{
+	DLLEXPORT olg::ICallStackRetriever* createCallStackRetriever();
 }
