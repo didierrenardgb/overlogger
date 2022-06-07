@@ -7,8 +7,6 @@ set(CMAKE_CXX_STANDARD 17)
 get_filename_component(abs_include_dir "include/" REALPATH)
 set(include_dirs ${abs_include_dir})
     
-include_directories(${include_dirs})
-    
 file(GLOB_RECURSE header_files "include/*.h")
 file(GLOB_RECURSE src_files "src/*.cpp")
 
@@ -24,7 +22,7 @@ list(APPEND include_dirs ${abs_include_dir})
 list(APPEND link_libs OVERLOGGER_LIB)
 
 include_directories(${include_dirs})
-link_libraries()
+link_libraries(${link_libs})
 
 add_executable(${PROJECT_NAME} ${src_files} ${header_files})
 add_dependencies(${PROJECT_NAME} ${link_libs})
