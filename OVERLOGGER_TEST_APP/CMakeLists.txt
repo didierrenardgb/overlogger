@@ -10,6 +10,21 @@ set(include_dirs ${abs_include_dir})
 file(GLOB_RECURSE header_files "include/*.h")
 file(GLOB_RECURSE src_files "src/*.cpp")
 
+if(NOT WIN32)
+    list(FILTER header_files EXCLUDE REGEX ".*Win.*")
+    list(FILTER src_files EXCLUDE REGEX ".*Win.*")
+endif()
+
+if(NOT UNIX)
+    list(FILTER header_files EXCLUDE REGEX ".*Linux.*")
+    list(FILTER src_files EXCLUDE REGEX ".*Linux.*")
+endif()
+
+if(NOT APPLE)
+    list(FILTER header_files EXCLUDE REGEX ".*Mac.*")
+    list(FILTER src_files EXCLUDE REGEX ".*Mac.*")
+endif()
+
 string(TOLOWER ${CMAKE_GENERATOR} GENERATOR_NAME)
 string(REPLACE " " "_" GENERATOR_NAME ${GENERATOR_NAME})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY bin/${GENERATOR_NAME}/)

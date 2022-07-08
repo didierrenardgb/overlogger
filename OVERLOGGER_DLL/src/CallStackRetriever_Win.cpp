@@ -68,7 +68,7 @@ namespace olg
             {
                 int ret = GetLastError();
                 std::cerr << "GetLastError: " << ret << std::endl;
-                frame = std::make_unique<CallStackFrameNull>();
+                frame = std::make_unique<CallStackFrame>(pSymbol->Address, std::string(pSymbol->Name), line.FileName, 0);
             }
             frames.push_back(std::move(frame));
         }

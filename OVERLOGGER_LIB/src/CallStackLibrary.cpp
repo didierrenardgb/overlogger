@@ -39,7 +39,6 @@ CallStackLibrary::~CallStackLibrary() = default;
 
 std::shared_ptr<CallStackLibrary> CallStackLibrary::makeShared(std::shared_ptr<dl::IDynamicLibrary> const& dynamicLibrary)
 {
-	// TODO: testear que se llame al destructor
 	return std::make_shared<MakeSharedEnabled>(dynamicLibrary);
 }
 }

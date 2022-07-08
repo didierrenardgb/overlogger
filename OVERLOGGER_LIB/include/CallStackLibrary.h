@@ -4,17 +4,16 @@
 
 namespace olg 
 {
-	namespace dl
-	{
-	class IDynamicLibrary;
-	class IDynamicLibraryFunctionPointer;
-	}
-	class ICallStackRetriever;
-	class Overlogger;
+namespace dl
+{
+class IDynamicLibrary;
+class IDynamicLibraryFunctionPointer;
+}
+class ICallStackRetriever;
+class Overlogger;
 
-	class CallStackLibrary
-	{
-		// TODO: la dynamic library deberia ser administrada por una clase de mayor jerarquía
+class CallStackLibrary
+{
 	public:
 		std::unique_ptr<ICallStackRetriever> createCallStackRetriever();
 	private:
@@ -26,5 +25,5 @@ namespace olg
 		virtual ~CallStackLibrary();
 
 		static std::shared_ptr<CallStackLibrary> makeShared(std::shared_ptr<dl::IDynamicLibrary> const& dynamicLibrary);
-	};
-}
+};
+} // namespace olg

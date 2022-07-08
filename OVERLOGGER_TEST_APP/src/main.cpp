@@ -12,7 +12,7 @@ int main(int argc, char* argv[]){
 	for (size_t i = 0; i < cs->getSize(); ++i)
 	{
 		decltype(auto) x = cs->getFrame(i);
-		std::cout << x.getFunctionName() << '\n';
+		std::cout << x.getSourceFileName() << ':' << x.getCodeLine() << ' ' << x.getFunctionName() << '\n';
 	}
 	
     return 0;
