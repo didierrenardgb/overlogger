@@ -11,5 +11,3 @@ namespace olg::dl {
 		virtual std::unique_ptr<IDynamicLibrary> load(const std::string &path) const = 0;
 	};
 }
-
-//HINSTANCE hGetProcIDDLL = LoadLibrary();

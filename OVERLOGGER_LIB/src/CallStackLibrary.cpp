@@ -2,24 +2,44 @@
 #include "ICallStackRetriever.h"
 #include "DynamicLibraryLoaderWindows.h"
 #include "DynamicLibraryFunctionCaller.h"
+#include "IDynamicLibrary.h"
 
-namespace olg {
-
-void CallStackLibrary::load()
+namespace olg 
 {
-	using namespace dl;
-	if (!mDynamicLibrary) {
-		std::unique_ptr<IDynamicLibraryLoader> loader = std::make_unique<DynamicLibraryLoaderWindows>(); // TODO: factory dl loaders
-		mDynamicLibrary = std::shared_ptr<IDynamicLibrary>(loader->load("overlogger_dll.dll").release()); // TODO: resolucion de nombres liberia dinamica
-	}
-}
+
+struct CallStackLibrary::MakeSharedEnabled : public CallStackLibrary
+{
+	MakeSharedEnabled(std::shared_ptr<dl::IDynamicLibrary> const& dynamicLibrary) : CallStackLibrary(dynamicLibrary) {}
+};
+
+struct CallStackLibrary::CallStackLibraryImpl
+{
+	std::shared_ptr<dl::IDynamicLibrary> mDynamicLibrary;
+	std::unique_ptr<dl::IDynamicLibraryFunctionPointer> mCreateCallStackRetriever;
+};
+
 std::unique_ptr<ICallStackRetriever> CallStackLibrary::createCallStackRetriever()
 {
 	using namespace dl;
-	if (!mCreateCallStackRetriever)
+	if (!mImpl->mCreateCallStackRetriever)
 	{
-		mCreateCallStackRetriever = mDynamicLibrary->getFunction("createCallStackRetriever");
+		mImpl->mCreateCallStackRetriever = mImpl->mDynamicLibrary->getFunction("createCallStackRetriever");
 	}
-	return call<ICallStackRetriever*>(mCreateCallStackRetriever);
+	return call<ICallStackRetriever*>(mImpl->mCreateCallStackRetriever);
+}
+
+CallStackLibrary::CallStackLibrary(std::shared_ptr<dl::IDynamicLibrary> const& dynamicLibrary)
+	:
+	mImpl(std::make_unique<CallStackLibraryImpl>())
+{
+	mImpl->mDynamicLibrary = dynamicLibrary;
+}
+
+CallStackLibrary::~CallStackLibrary() = default;
+
+std::shared_ptr<CallStackLibrary> CallStackLibrary::makeShared(std::shared_ptr<dl::IDynamicLibrary> const& dynamicLibrary)
+{
+	// TODO: testear que se llame al destructor
+	return std::make_shared<MakeSharedEnabled>(dynamicLibrary);
 }
 }
