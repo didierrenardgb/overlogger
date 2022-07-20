@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.10)
 
 project(OVERLOGGER_TEST_APP)
 
@@ -40,4 +40,5 @@ include_directories(${include_dirs})
 link_libraries(${link_libs})
 
 add_executable(${PROJECT_NAME} ${src_files} ${header_files})
+set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "olg_test_app")
 add_dependencies(${PROJECT_NAME} ${link_libs})
