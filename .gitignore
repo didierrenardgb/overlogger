@@ -21,3 +21,5 @@ OVERLOGGER_DLL/Debug
 Win32
 olg_test_app
 libOVERLOGGER_DLL.so
+ZERO_CHECK.proj
+ZERO_CHECK.proj.filters
