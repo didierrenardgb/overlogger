@@ -14,6 +14,5 @@ int main(int argc, char* argv[]){
 		decltype(auto) x = cs->getFrame(i);
 		std::cout << x.getSourceFileName() << ':' << x.getCodeLine() << ' ' << x.getFunctionName() << '\n';
 	}
-	
     return 0;
 }

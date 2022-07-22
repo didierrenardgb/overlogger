@@ -17,7 +17,7 @@ namespace olg
 			{
 				DynamicLibraryLoaderFactory factory;
 				std::unique_ptr<IDynamicLibraryLoader> loader = factory.create();
-				mDynamicLibrary = std::shared_ptr<IDynamicLibrary>(loader->load("overlogger_dll").release());
+				mDynamicLibrary = std::shared_ptr<IDynamicLibrary>(loader->load("OVERLOGGER_DLL").release());
 			}
 		}
 	};

@@ -19,3 +19,5 @@ OVERLOGGER_DLL/Debug
 **/*.vcxproj*
 **/*.sln
 Win32
+olg_test_app
+libOVERLOGGER_DLL.so
