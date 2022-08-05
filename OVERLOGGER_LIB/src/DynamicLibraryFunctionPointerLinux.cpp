@@ -6,23 +6,23 @@ namespace olg::dl
 
     struct DynamicLibraryFunctionPointerLinux::DynamicLibraryFunctionPointerLinuxImpl
     {
-        DynamicLibraryFunctionPointerLinuxImpl(void* functionPtr) : mFunctionPointer(functionPtr) {}
-        void* mFunctionPointer;
+        DynamicLibraryFunctionPointerLinuxImpl(DynamicLibrarySymbolHandlr functionPtr) : mFunctionPointer(functionPtr) {}
+        DynamicLibrarySymbolHandlr mFunctionPointer;
     };
 
-    DynamicLibraryFunctionPointerLinux::DynamicLibraryFunctionPointerLinux(void* funPtr)
+    DynamicLibraryFunctionPointerLinux::DynamicLibraryFunctionPointerLinux(DynamicLibrarySymbolHandlr funPtr)
         : mImpl(std::make_unique<DynamicLibraryFunctionPointerLinuxImpl>(funPtr))
     {
     }
 
     DynamicLibraryFunctionPointerLinux::~DynamicLibraryFunctionPointerLinux() = default;
 
-    void* DynamicLibraryFunctionPointerLinux::handle() const
+    DynamicLibrarySymbolHandlr DynamicLibraryFunctionPointerLinux::handle() const
     {
         return mImpl->mFunctionPointer;
     }
 
-    std::unique_ptr<IDynamicLibraryFunctionPointer> DynamicLibraryFunctionPointerLinux::makeUnique(void* funPtr)
+    std::unique_ptr<IDynamicLibraryFunctionPointer> DynamicLibraryFunctionPointerLinux::makeUnique(DynamicLibrarySymbolHandlr funPtr)
     {
         return std::unique_ptr<IDynamicLibraryFunctionPointer>(new DynamicLibraryFunctionPointerLinux(funPtr));
     }

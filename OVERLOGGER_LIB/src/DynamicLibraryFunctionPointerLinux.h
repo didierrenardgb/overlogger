@@ -5,21 +5,22 @@
 
 namespace olg::dl
 {
+    typedef void* DynamicLibrarySymbolHandlr;
     class DynamicLibraryLinux;
     class DynamicLibraryFunctionPointerLinux : public IDynamicLibraryFunctionPointer
     {
     public:
         ~DynamicLibraryFunctionPointerLinux();
     protected:
-        DynamicLibraryFunctionPointerLinux(void* funPtr);
+        DynamicLibraryFunctionPointerLinux(DynamicLibrarySymbolHandlr funPtr);
         DynamicLibraryFunctionPointerLinux(DynamicLibraryFunctionPointerLinux const& other) = delete;
         DynamicLibraryFunctionPointerLinux(DynamicLibraryFunctionPointerLinux&& other) = delete;
-        void* handle() const override;
+        DynamicLibrarySymbolHandlr handle() const override;
         friend class DynamicLibraryLinux;
         class DynamicLibraryFunctionPointerLinuxImpl;
         std::unique_ptr<DynamicLibraryFunctionPointerLinuxImpl> mImpl;
     private:
-        static std::unique_ptr<IDynamicLibraryFunctionPointer> makeUnique(void* funPtr);
+        static std::unique_ptr<IDynamicLibraryFunctionPointer> makeUnique(DynamicLibrarySymbolHandlr funPtr);
     };
 
 }

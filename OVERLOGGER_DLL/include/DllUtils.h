@@ -5,5 +5,5 @@
 #elif defined(__GNUC__)
 	#define DLLEXPORT __attribute__((visibility("default")))
 #else
-	#error "TODO other platforms"
+	#error "unsupported platform"
 #endif

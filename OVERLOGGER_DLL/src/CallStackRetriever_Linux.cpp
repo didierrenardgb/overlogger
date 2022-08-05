@@ -47,15 +47,14 @@ namespace olg
         {
             std::unique_ptr<ICallStackFrame> frame;
 
-            // TODO: ver de donde sacar filename y linenumber
 
-            Dl_info info; //TODO: ver que trae este DL_info. https://man7.org/linux/man-pages/man3/dladdr.3.html
+            Dl_info info; 
             if (dladdr(callstack[i], &info) != 0 && info.dli_sname != nullptr)
             {
                 int status = 0;
                 char* demangled = abi::__cxa_demangle(info.dli_sname, nullptr, 0, &status);
                 std::string functionName = (status == 0 && demangled != nullptr) ? demangled : info.dli_sname;
-                frame = std::make_unique<CallStackFrame>(reinterpret_cast<unsigned long long>(callstack[i]), functionName, /*line.FileName*/ "", /*line.LineNumber*/ 0);
+                frame = std::make_unique<CallStackFrame>(reinterpret_cast<unsigned long long>(callstack[i]), functionName, info.dli_fname , /*line.LineNumber*/ 0);
                 if(demangled != nullptr)
                 {
                     free(demangled);

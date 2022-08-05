@@ -9,9 +9,7 @@ namespace olg::dl
 
     std::unique_ptr<IDynamicLibrary> DynamicLibraryLoaderLinux::load(const std::string& path) const
     {
-        std::cout << path << std::endl;
         void* library = dlopen((std::string{ "./lib" } + path + ".so").c_str(), RTLD_LAZY);
-        std::cout << ((library == nullptr) ? "null" : "not null") << std::endl;
         return std::unique_ptr<IDynamicLibrary>(new DynamicLibraryLinux(library));
     }
 

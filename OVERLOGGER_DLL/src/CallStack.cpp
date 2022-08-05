@@ -1,10 +1,6 @@
 #include "CallStack.h"
 #include "CallStackImpl.h"
 
-/*
-TODO'S: repetir el proceso de mover a pimpls en las demas clases
-*/
-
 namespace olg
 {
     std::unique_ptr<ICallStack> CallStack::makeUnique(std::vector<std::unique_ptr<ICallStackFrame>>&& frames)
