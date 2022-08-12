@@ -1,16 +1,17 @@
 #include "CallStackFrameNull.h"
 
 namespace olg {
+
+    static const std::string kNullName = "OLG::NULL";
+
     const std::string& CallStackFrameNull::getFunctionName() const
     {
-        static const std::string sFunctionName = "?NULL";
-        return sFunctionName;
+        return kNullName;
     }
 
     const std::string& CallStackFrameNull::getSourceFileName() const
     {
-        static const std::string sSourceFileName = "?NULL";
-        return sSourceFileName;
+        return kNullName;
     }
 
     unsigned long CallStackFrameNull::getCodeLine() const

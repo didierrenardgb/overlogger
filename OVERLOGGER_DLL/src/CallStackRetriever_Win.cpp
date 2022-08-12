@@ -7,11 +7,35 @@
 #include "CallStackFrame.h"
 #include "CallStackFrameNull.h"
 #include <iostream>
+// #include <mutex>
 
 constexpr ULONG TRACE_MAX_STACK_FRAMES = 64;
 
 namespace olg
 {
+    // TODO: dbghelp.h no es Thread safe.
+    // TODO: pensar si hay alguna forma de "decorar" esos metodos con templates, para que use el mutex
+
+    /*
+    static std::mutex m;
+
+    static HANDLE __stdcall tsGetCurrentProcess() {
+        std::unique_lock<std::mutex> lck{ m };
+        return GetCurrentProcess();
+    }
+    */
+    /*
+    SymInitialize
+    SymCleanup
+    SymFromAddr
+    SymGetLineFromAddr64
+    */
+
+    /*
+    GetCurrentProcess
+    CaptureStackBackTrace
+    */
+
     class CallStackRetrieverImpl {
     public:
         HANDLE mProcessHandle;
@@ -53,7 +77,7 @@ namespace olg
             if (TRUE != SymFromAddr(mImpl->mProcessHandle, address, NULL, pSymbol))
             {
                 int ret = GetLastError();
-                std::cerr << "SymFromAddr - GetLastError: " << ret << std::endl;
+                std::cerr << "SymFromAddr - GetLastError: " << ret << std::endl; // TODO
             }
 
             DWORD displacement;
@@ -67,7 +91,7 @@ namespace olg
             else
             {
                 int ret = GetLastError();
-                std::cerr << "GetLastError: " << ret << std::endl;
+                std::cerr << "GetLastError: " << ret << std::endl; // TODO
                 frame = std::make_unique<CallStackFrame>(pSymbol->Address, std::string(pSymbol->Name), line.FileName, 0);
             }
             frames.push_back(std::move(frame));

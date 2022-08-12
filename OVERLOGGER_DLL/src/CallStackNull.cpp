@@ -4,6 +4,8 @@
 namespace olg
 {
 	CallStackNull::CallStackNull() = default;
+    static const olg::CallStackFrameNull sNullFrame;
+    static const std::vector<std::unique_ptr<olg::ICallStackFrame>> sNullFrameList;
 
 	std::unique_ptr<ICallStack> CallStackNull::makeUnique()
 	{
@@ -17,13 +19,11 @@ namespace olg
 
     const ICallStackFrame& CallStackNull::getFrame(size_t index) const
     {
-        static const olg::CallStackFrameNull gNullFrame;
-        return gNullFrame;
+        return sNullFrame;
     }
 
     const std::vector<std::unique_ptr<ICallStackFrame>>& CallStackNull::getFrameList() const
     {
-        static const std::vector<std::unique_ptr<olg::ICallStackFrame>> gNullFrameList;
-        return gNullFrameList;
+        return sNullFrameList;
     }
 }

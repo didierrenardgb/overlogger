@@ -23,7 +23,7 @@ namespace olg {
 	CallStackFrame::~CallStackFrame() = default;
 
 
-	const std::string& CallStackFrame::getFunctionName() const { return mImpl->mFunctionName; }	//Virtual and override don't get on the imp
+	const std::string& CallStackFrame::getFunctionName() const { return mImpl->mFunctionName; }	//Virtual and override don't go on the imp
 	const std::string& CallStackFrame::getSourceFileName() const { return mImpl->mSourceFileName; }
 	unsigned long CallStackFrame::getCodeLine() const { return mImpl->mCodeLine; }
     unsigned long long CallStackFrame::getAddress() const { return mImpl->mAddress; }
