@@ -7,12 +7,13 @@
 
 int main(int argc, char* argv[]){
 	olg::Overlogger overlogger;
-	auto csr = overlogger.callStackLibrary()->createCallStackRetriever();
-	auto cs = csr->retrieve();
+	auto lib = overlogger.callStackLibrary();
+	auto ret = lib->createCallStackRetriever();
+	auto cs = ret->retrieve();
 	for (size_t i = 0; i < cs->getSize(); ++i)
 	{
-		decltype(auto) x = cs->getFrame(i);
-		std::cout << x.getSourceFileName() << ':' << x.getCodeLine() << ' ' << x.getFunctionName() << '\n';
+		const auto& fr = cs->getFrame(i);
+		std::cout << fr.getSourceFileName() << ':' << fr.getCodeLine() << ' ' << fr.getFunctionName() << '\n';
 	}
     return 0;
 }

@@ -10,13 +10,7 @@
 namespace olg::dl
 {
     template<class T>
-    struct Return
-    {
-        using type = typename std::conditional<std::is_pointer_v<T>, std::unique_ptr<std::remove_pointer_t<T>>, T>::type;
-    };
-
-    template<class T>
-    using Return_t = typename Return<T>::type;
+    using Return_t = typename std::conditional<std::is_pointer_v<T>, std::unique_ptr<std::remove_pointer_t<T>>, T>::type;
 
     template<class RetType, typename... Args>
     class DynamicLibraryFunctionCaller : public IDynamicLibraryFunctionCaller

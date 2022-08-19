@@ -7,7 +7,7 @@
 #include "CallStackFrame.h"
 #include "CallStackFrameNull.h"
 #include <iostream>
-// #include <mutex>
+#include <mutex>
 
 constexpr ULONG TRACE_MAX_STACK_FRAMES = 64;
 
@@ -36,6 +36,14 @@ namespace olg
     CaptureStackBackTrace
     */
 
+    static std::mutex m;
+
+    template<typename F, typename... Args>
+    auto CallWithMutex(F fun, Args&&... args) {
+        std::lock_guard<std::mutex> lck{ m };
+        return fun(std::forward<Args>(args)...);
+    }
+
     class CallStackRetrieverImpl {
     public:
         HANDLE mProcessHandle;
@@ -43,7 +51,7 @@ namespace olg
         CallStackRetrieverImpl(std::unique_ptr<ICallStackFactory>&& callStackFactory)
             : mCallStackFactory{ std::move(callStackFactory) }, mProcessHandle{ GetCurrentProcess() }
         {
-            SymInitialize(mProcessHandle, NULL, TRUE);
+            CallWithMutex(SymInitialize, mProcessHandle, PCSTR{}, TRUE);
         }
     };
 
@@ -53,48 +61,41 @@ namespace olg
 
     CallStackRetriever::~CallStackRetriever()
     {
-        SymCleanup(mImpl->mProcessHandle);
+        CallWithMutex(SymCleanup, mImpl->mProcessHandle);
         mImpl->mProcessHandle = nullptr;
     }
 
     std::unique_ptr<ICallStack> CallStackRetriever::retrieve()
     {
+        //{ this buffers are reused on each iteration, and shouldn't be moved inside the loop, without being careful... (Specially DWORD displacement !)
         PVOID backTrace[TRACE_MAX_STACK_FRAMES];
         WORD numberOfFrames = CaptureStackBackTrace(0, TRACE_MAX_STACK_FRAMES, backTrace, NULL);
 
-        char buffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR)];
+        TCHAR buffer[sizeof(SYMBOL_INFO) + MAX_SYM_NAME * sizeof(TCHAR)]{};
         PSYMBOL_INFO pSymbol = reinterpret_cast<PSYMBOL_INFO>(buffer);
         pSymbol->SizeOfStruct = sizeof(SYMBOL_INFO);
         pSymbol->MaxNameLen = MAX_SYM_NAME;
 
+        DWORD displacement{};
+        IMAGEHLP_LINE64 line{};
+        line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
+        //}
+
         std::vector<std::unique_ptr<ICallStackFrame>> frames;
 
-        for (int i = 0; i < numberOfFrames; i++)
+        for (WORD i = 0; i < numberOfFrames; ++i)
         {
-            std::unique_ptr<ICallStackFrame> frame;
-
-            DWORD64 address = (DWORD64)(backTrace[i]);
-            if (TRUE != SymFromAddr(mImpl->mProcessHandle, address, NULL, pSymbol))
+            const DWORD64 address = reinterpret_cast<DWORD64>(backTrace[i]);
+            if (TRUE != CallWithMutex(SymFromAddr, mImpl->mProcessHandle, address, PDWORD64{}, pSymbol))
             {
-                int ret = GetLastError();
-                std::cerr << "SymFromAddr - GetLastError: " << ret << std::endl; // TODO
+                std::cerr << "SymFromAddr - GetLastError: " << GetLastError() << std::endl; // TODO
             }
-
-            DWORD displacement;
-            IMAGEHLP_LINE64 line;
-            line.SizeOfStruct = sizeof(IMAGEHLP_LINE64);
-
-            if (SymGetLineFromAddr64(mImpl->mProcessHandle, address, &displacement, &line))
+            if (TRUE != CallWithMutex(SymGetLineFromAddr64, mImpl->mProcessHandle, address, &displacement, &line))
             {
-                frame = std::make_unique<CallStackFrame>(pSymbol->Address, std::string(pSymbol->Name), line.FileName, line.LineNumber);
+                line.LineNumber = 0;
+                std::cerr << "GetLastError: " << GetLastError() << std::endl; // TODO
             }
-            else
-            {
-                int ret = GetLastError();
-                std::cerr << "GetLastError: " << ret << std::endl; // TODO
-                frame = std::make_unique<CallStackFrame>(pSymbol->Address, std::string(pSymbol->Name), line.FileName, 0);
-            }
-            frames.push_back(std::move(frame));
+            frames.push_back(std::make_unique<CallStackFrame>(pSymbol->Address, std::string(pSymbol->Name), line.FileName, line.LineNumber));
         }
 
         return mImpl->mCallStackFactory->create(std::move(frames));
