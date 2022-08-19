@@ -39,7 +39,7 @@ namespace olg
     static std::mutex m;
 
     template<typename F, typename... Args>
-    auto CallWithMutex(F fun, Args&&... args) {
+    auto callWithMutex(F fun, Args&&... args) {
         std::lock_guard<std::mutex> lck{ m };
         return fun(std::forward<Args>(args)...);
     }
@@ -51,7 +51,7 @@ namespace olg
         CallStackRetrieverImpl(std::unique_ptr<ICallStackFactory>&& callStackFactory)
             : mCallStackFactory{ std::move(callStackFactory) }, mProcessHandle{ GetCurrentProcess() }
         {
-            CallWithMutex(SymInitialize, mProcessHandle, PCSTR{}, TRUE);
+            callWithMutex(SymInitialize, mProcessHandle, PCSTR{}, TRUE);
         }
     };
 
@@ -61,7 +61,7 @@ namespace olg
 
     CallStackRetriever::~CallStackRetriever()
     {
-        CallWithMutex(SymCleanup, mImpl->mProcessHandle);
+        callWithMutex(SymCleanup, mImpl->mProcessHandle);
         mImpl->mProcessHandle = nullptr;
     }
 
@@ -86,11 +86,11 @@ namespace olg
         for (WORD i = 0; i < numberOfFrames; ++i)
         {
             const DWORD64 address = reinterpret_cast<DWORD64>(backTrace[i]);
-            if (TRUE != CallWithMutex(SymFromAddr, mImpl->mProcessHandle, address, PDWORD64{}, pSymbol))
+            if (TRUE != callWithMutex(SymFromAddr, mImpl->mProcessHandle, address, PDWORD64{}, pSymbol))
             {
                 std::cerr << "SymFromAddr - GetLastError: " << GetLastError() << std::endl; // TODO
             }
-            if (TRUE != CallWithMutex(SymGetLineFromAddr64, mImpl->mProcessHandle, address, &displacement, &line))
+            if (TRUE != callWithMutex(SymGetLineFromAddr64, mImpl->mProcessHandle, address, &displacement, &line))
             {
                 line.LineNumber = 0;
                 std::cerr << "GetLastError: " << GetLastError() << std::endl; // TODO
