@@ -4,6 +4,8 @@
 #include "DynamicLibraryFunctionCaller.h"
 #include "IDynamicLibrary.h"
 
+#include <mutex>
+
 namespace olg 
 {
 
@@ -18,11 +20,14 @@ struct CallStackLibrary::CallStackLibraryImpl
 {
 	std::shared_ptr<dl::IDynamicLibrary> mDynamicLibrary;
 	std::unique_ptr<dl::IDynamicLibraryFunctionPointer> mCreateCallStackRetriever;
+	std::mutex mMutex;
 };
 
 std::unique_ptr<ICallStackRetriever> CallStackLibrary::createCallStackRetriever()
 {
 	using namespace dl;
+	std::lock_guard lock(mImpl->mMutex);
+
 	if (!mImpl->mCreateCallStackRetriever)
 	{
 		mImpl->mCreateCallStackRetriever = mImpl->mDynamicLibrary->getFunction("createCallStackRetriever");
