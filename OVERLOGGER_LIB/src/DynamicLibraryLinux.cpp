@@ -6,6 +6,8 @@
 
 namespace olg::dl {
 
+    //TODO: reemplazar el void* por un typedef
+
     struct DynamicLibraryLinux::DynamicLibraryLinuxImpl
     {
         DynamicLibraryLinuxImpl(void* libHandle)

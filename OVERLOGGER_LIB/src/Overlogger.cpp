@@ -4,12 +4,16 @@
 #include "IDynamicLibraryLoader.h"
 #include "IDynamicLibrary.h"
 
+#include <mutex>
+
 namespace olg
 {
 	struct Overlogger::OverloggerImpl
 	{
 		std::shared_ptr<CallStackLibrary> mCallStackLibrary;
 		std::shared_ptr<dl::IDynamicLibrary> mDynamicLibrary;
+		std::mutex mMutex;
+
 		void load()
 		{
 			using namespace dl;
@@ -28,6 +32,7 @@ namespace olg
 
 	std::shared_ptr<CallStackLibrary> Overlogger::callStackLibrary()
 	{
+		std::lock_guard lock(mImpl->mMutex);
 		if (mImpl->mCallStackLibrary)
 		{
 			return mImpl->mCallStackLibrary;
