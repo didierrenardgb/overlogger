@@ -1,6 +1,7 @@
 .vscode
 .editorconfig
 bin
+Debug
 **/build
 **/CMakeFiles
 **/CMakeCache.txt
@@ -15,6 +16,7 @@ bin
 **/*.dir
 **/.vs
 OVERLOGGER_DLL/Debug
+OVERLOGGER_ALL
 **/x64
 **/*.vcxproj*
 **/*.sln
@@ -23,3 +25,4 @@ olg_test_app
 libOVERLOGGER_DLL.so
 ZERO_CHECK.proj
 ZERO_CHECK.proj.filters
+_deps

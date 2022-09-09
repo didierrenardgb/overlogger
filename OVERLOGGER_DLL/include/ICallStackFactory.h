@@ -12,5 +12,6 @@ namespace olg
     {
     public:
         virtual std::unique_ptr<ICallStack> create(std::vector<std::unique_ptr<ICallStackFrame>> &&frames) = 0;
+        virtual ~ICallStackFactory() = default;
     };
 }
