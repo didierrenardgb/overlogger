@@ -14,6 +14,7 @@ class Overlogger;
 
 class CallStackLibrary
 {
+	// TODO: falta cargar el simbolo para comparar CallStackFrames. renombrar equals para evitar problemas en C por los nombres iguales
 	public:
 		std::unique_ptr<ICallStackRetriever> createCallStackRetriever();
 	private:

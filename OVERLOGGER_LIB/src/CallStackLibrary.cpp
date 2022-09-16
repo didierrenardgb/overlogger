@@ -9,8 +9,6 @@
 namespace olg 
 {
 
-//TODO: los smart pointers no son thread safe, hacer su uso thread safe
-
 struct CallStackLibrary::MakeSharedEnabled : public CallStackLibrary
 {
 	MakeSharedEnabled(std::shared_ptr<dl::IDynamicLibrary> const& dynamicLibrary) : CallStackLibrary(dynamicLibrary) {}

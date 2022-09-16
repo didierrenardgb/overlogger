@@ -13,28 +13,6 @@ constexpr ULONG TRACE_MAX_STACK_FRAMES = 64;
 
 namespace olg
 {
-    // TODO: dbghelp.h no es Thread safe.
-    // TODO: pensar si hay alguna forma de "decorar" esos metodos con templates, para que use el mutex
-
-    /*
-    static std::mutex m;
-
-    static HANDLE __stdcall tsGetCurrentProcess() {
-        std::unique_lock<std::mutex> lck{ m };
-        return GetCurrentProcess();
-    }
-    */
-    /*
-    SymInitialize
-    SymCleanup
-    SymFromAddr
-    SymGetLineFromAddr64
-    */
-
-    /*
-    GetCurrentProcess
-    CaptureStackBackTrace
-    */
 
     static std::mutex m;
 

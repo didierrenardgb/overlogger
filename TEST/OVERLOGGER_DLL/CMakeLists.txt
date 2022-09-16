@@ -16,23 +16,7 @@ FetchContent_Declare(
 
 file(GLOB_RECURSE header_files "${dll_include_dirs}/*.h" "${dll_source_dirs}/*.h")
 file(GLOB_RECURSE src_files "${dll_source_dirs}/*.cpp")
-
-# TODO 16/09: mover esto a un utils
-
-if(NOT WIN32)
-    list(FILTER header_files EXCLUDE REGEX ".*Win.*")
-    list(FILTER src_files EXCLUDE REGEX ".*Win.*")
-endif()
-
-if(NOT UNIX)
-    list(FILTER header_files EXCLUDE REGEX ".*Linux.*")
-    list(FILTER src_files EXCLUDE REGEX ".*Linux.*")
-endif()
-
-if(NOT APPLE)
-    list(FILTER header_files EXCLUDE REGEX ".*Mac.*")
-    list(FILTER src_files EXCLUDE REGEX ".*Mac.*")
-endif()
+include("../../utils/excludeOtherOsCodeFiles.txt")
 
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)

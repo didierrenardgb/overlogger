@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include "DllUtils.h"
+#include <stdbool.h>
 
 namespace olg
 {
@@ -13,4 +15,9 @@ namespace olg
         virtual unsigned long long getAddress() const = 0;
 		virtual ~ICallStackFrame();
     };
+}
+
+extern "C" 
+{
+    DLLEXPORT bool equals(const olg::ICallStackFrame* cs1, const olg::ICallStackFrame* cs2);
 }

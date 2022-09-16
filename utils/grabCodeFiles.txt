@@ -1,0 +1,2 @@
+file(GLOB_RECURSE header_files "include/*.h" "src/*.h")
+file(GLOB_RECURSE src_files "src/*.cpp")
