@@ -5,7 +5,7 @@ namespace olg
 	ICallStackFrame::~ICallStackFrame() = default;
 }
 
-bool equals(const olg::ICallStackFrame* cs1, const olg::ICallStackFrame* cs2)
+bool equalsFrame(const olg::ICallStackFrame* cs1, const olg::ICallStackFrame* cs2)
 {
 	return cs1->getAddress() == cs2->getAddress()
 		&& cs1->getCodeLine() == cs2->getCodeLine()

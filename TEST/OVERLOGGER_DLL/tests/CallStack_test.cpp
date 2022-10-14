@@ -3,25 +3,19 @@
 #include "CallStackFactory.h"
 #include "CallStackFrame.h"
 #include "CallStackFrameNull.h"
+#include "ICallStackFrame.h"
 
 namespace olg::test 
-{
-    bool isNull(const ICallStackFrame& csf) {
-        CallStackFrameNull csfn{};
-        return csfn.getAddress() == csf.getAddress()
-            && csfn.getCodeLine() == csf.getCodeLine()
-            && csfn.getFunctionName() == csf.getFunctionName()
-            && csfn.getSourceFileName() == csf.getSourceFileName();
-    }
-        
+{     
     TEST(CallStackTest, ConstructionNoFrames) {
         using namespace olg;
+		CallStackFrameNull csfn{};
         std::vector<std::unique_ptr<ICallStackFrame>> v;
         CallStackFactory csf = CallStackFactory{};
         std::unique_ptr<ICallStack> cs = csf.create(std::move(v));
         EXPECT_EQ(cs->getSize(), 0);
         EXPECT_EQ(cs->getFrameList().size(), 0);
-        EXPECT_TRUE(isNull(cs->getFrame(0)));
+        EXPECT_TRUE(equalsFrame(&cs->getFrame(0), &csfn));
     }
 }
 

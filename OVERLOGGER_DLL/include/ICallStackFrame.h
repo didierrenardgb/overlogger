@@ -19,5 +19,5 @@ namespace olg
 
 extern "C" 
 {
-    DLLEXPORT bool equals(const olg::ICallStackFrame* cs1, const olg::ICallStackFrame* cs2);
+    DLLEXPORT bool equalsFrame(const olg::ICallStackFrame* cs1, const olg::ICallStackFrame* cs2);
 }

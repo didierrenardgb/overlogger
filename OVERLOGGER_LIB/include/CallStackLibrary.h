@@ -11,12 +11,13 @@ class IDynamicLibraryFunctionPointer;
 }
 class ICallStackRetriever;
 class Overlogger;
+class ICallStackFrame;
 
 class CallStackLibrary
 {
-	// TODO: falta cargar el simbolo para comparar CallStackFrames. renombrar equals para evitar problemas en C por los nombres iguales
 	public:
 		std::unique_ptr<ICallStackRetriever> createCallStackRetriever();
+		bool equals(ICallStackFrame const& frame1, ICallStackFrame const& frame2);
 	private:
 		friend Overlogger;
 		struct CallStackLibraryImpl;

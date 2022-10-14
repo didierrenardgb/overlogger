@@ -18,6 +18,7 @@ struct CallStackLibrary::CallStackLibraryImpl
 {
 	std::shared_ptr<dl::IDynamicLibrary> mDynamicLibrary;
 	std::unique_ptr<dl::IDynamicLibraryFunctionPointer> mCreateCallStackRetriever;
+	std::unique_ptr<dl::IDynamicLibraryFunctionPointer> mEqualFrame;
 	std::mutex mMutex;
 };
 
@@ -31,6 +32,18 @@ std::unique_ptr<ICallStackRetriever> CallStackLibrary::createCallStackRetriever(
 		mImpl->mCreateCallStackRetriever = mImpl->mDynamicLibrary->getFunction("createCallStackRetriever");
 	}
 	return call<ICallStackRetriever*>(mImpl->mCreateCallStackRetriever);
+}
+
+bool CallStackLibrary::equals(ICallStackFrame const& frame1, ICallStackFrame const& frame2)
+{
+	using namespace dl;
+	std::lock_guard lock(mImpl->mMutex);
+
+	if (!mImpl->mEqualFrame)
+	{
+		mImpl->mEqualFrame = mImpl->mDynamicLibrary->getFunction("equalsFrame");
+	}
+	return call<bool>(mImpl->mEqualFrame, &frame1, &frame2);
 }
 
 CallStackLibrary::CallStackLibrary(std::shared_ptr<dl::IDynamicLibrary> const& dynamicLibrary)
