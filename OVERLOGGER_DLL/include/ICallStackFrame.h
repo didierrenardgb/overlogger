@@ -1,8 +1,8 @@
 #pragma once
 
 #include <string>
-#include "DllUtils.h"
 #include <stdbool.h>
+#include "DllUtils.h"
 
 namespace olg
 {

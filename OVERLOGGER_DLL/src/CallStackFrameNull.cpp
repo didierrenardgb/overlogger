@@ -23,5 +23,11 @@ namespace olg {
     {
         return 0;
     }
+
+    static const CallStackFrameNull cfn;
 }
 
+const olg::ICallStackFrame* createCallStackFrameNull() 
+{
+    return &olg::cfn;
+}

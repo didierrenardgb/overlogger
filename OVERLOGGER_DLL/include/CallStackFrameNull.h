@@ -3,6 +3,7 @@
 #include <string>
 
 #include "ICallStackFrame.h"
+#include "DllUtils.h"
 
 namespace olg
 {
@@ -14,4 +15,9 @@ namespace olg
         virtual unsigned long getCodeLine() const override;
         virtual unsigned long long getAddress() const override;
     };
+}
+
+extern "C"
+{
+    DLLEXPORT const olg::ICallStackFrame* createCallStackFrameNull();
 }

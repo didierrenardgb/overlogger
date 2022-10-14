@@ -18,6 +18,7 @@ class CallStackLibrary
 	public:
 		std::unique_ptr<ICallStackRetriever> createCallStackRetriever();
 		bool equals(ICallStackFrame const& frame1, ICallStackFrame const& frame2);
+		const ICallStackFrame& createCallStackFrameNull();
 	private:
 		friend Overlogger;
 		struct CallStackLibraryImpl;

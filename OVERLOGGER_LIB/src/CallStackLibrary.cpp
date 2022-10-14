@@ -3,6 +3,7 @@
 #include "DynamicLibraryLoaderWindows.h"
 #include "DynamicLibraryFunctionCaller.h"
 #include "IDynamicLibrary.h"
+#include "ICallStackFrame.h"
 
 #include <mutex>
 
@@ -19,6 +20,7 @@ struct CallStackLibrary::CallStackLibraryImpl
 	std::shared_ptr<dl::IDynamicLibrary> mDynamicLibrary;
 	std::unique_ptr<dl::IDynamicLibraryFunctionPointer> mCreateCallStackRetriever;
 	std::unique_ptr<dl::IDynamicLibraryFunctionPointer> mEqualFrame;
+	std::unique_ptr<dl::IDynamicLibraryFunctionPointer> mCreateCallStackFrameNull;
 	std::mutex mMutex;
 };
 
@@ -44,6 +46,18 @@ bool CallStackLibrary::equals(ICallStackFrame const& frame1, ICallStackFrame con
 		mImpl->mEqualFrame = mImpl->mDynamicLibrary->getFunction("equalsFrame");
 	}
 	return call<bool>(mImpl->mEqualFrame, &frame1, &frame2);
+}
+
+const ICallStackFrame& CallStackLibrary::createCallStackFrameNull()
+{
+	using namespace dl;
+	std::lock_guard lock(mImpl->mMutex);
+
+	if (!mImpl->mCreateCallStackFrameNull)
+	{
+		mImpl->mCreateCallStackFrameNull = mImpl->mDynamicLibrary->getFunction("createCallStackFrameNull");
+	}
+	return *call<const ICallStackFrame*>(mImpl->mCreateCallStackFrameNull);
 }
 
 CallStackLibrary::CallStackLibrary(std::shared_ptr<dl::IDynamicLibrary> const& dynamicLibrary)

@@ -10,7 +10,13 @@
 namespace olg::dl
 {
     template<class T>
-    using Return = typename std::conditional<std::is_pointer_v<T>, std::unique_ptr<std::remove_pointer_t<T>>, T>::type;
+    using Return = typename std::conditional<std::is_const_v<std::remove_pointer_t<T>>,
+        T,
+        typename std::conditional<std::is_pointer_v<T>,
+            std::unique_ptr<std::remove_pointer_t<T>>,
+            T
+            >::type
+        >::type;
 
     template<class RetType, typename... Args>
     class DynamicLibraryFunctionCaller : public IDynamicLibraryFunctionCaller
@@ -27,7 +33,7 @@ namespace olg::dl
         
         void call() const override
         {
-            if constexpr (std::is_pointer_v<RetType>)
+            if constexpr (!std::is_const_v<std::remove_pointer_t<RetType>> && std::is_pointer_v<RetType>)
             {
                 RetType result = std::apply(reinterpret_cast<RetType(*)(Args...)>(handle(mFunctionPointer)), mArgs);
                 mOnCalled(std::unique_ptr<std::remove_pointer_t<RetType>>(result));
