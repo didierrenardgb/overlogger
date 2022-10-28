@@ -5,13 +5,14 @@
 #include "Overlogger.h"
 #include <iostream>
 
-int main(int argc, char* argv[]){
+int main(int argc, char* argv[])
+{
 	olg::Overlogger overlogger;
 	auto lib = overlogger.callStackLibrary();
 	auto ret = lib->createCallStackRetriever();
 	auto cs = ret->retrieve();
 
-	auto frame = lib->equals(cs->getFrame(0), lib->createCallStackFrameNull());
+	auto frame = lib->equals(cs->getFrame(0), lib->getCallStackFrameNull());
 	for (size_t i = 0; i < cs->getSize(); ++i)
 	{
 		const auto& fr = cs->getFrame(i);

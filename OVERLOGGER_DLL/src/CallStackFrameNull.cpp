@@ -1,8 +1,9 @@
 #include "CallStackFrameNull.h"
 
-namespace olg {
-
+namespace olg
+{
     static const std::string kNullName = "OLG::NULL";
+    static const CallStackFrameNull cfn;
 
     const std::string& CallStackFrameNull::getFunctionName() const
     {
@@ -16,18 +17,21 @@ namespace olg {
 
     unsigned long CallStackFrameNull::getCodeLine() const
     {
-        return 0;
+        return 0ul;
     }
 
     unsigned long long CallStackFrameNull::getAddress() const
     {
-        return 0;
+        return 0ull;
     }
 
-    static const CallStackFrameNull cfn;
+    const std::string& getNullString()
+    {
+        return kNullName;
+    }
 }
 
-const olg::ICallStackFrame* createCallStackFrameNull() 
+const olg::ICallStackFrame* getCallStackFrameNull()
 {
     return &olg::cfn;
 }

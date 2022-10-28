@@ -6,11 +6,11 @@
 
 namespace olg
 {
-    class CallStackImpl; // forward declaration
-
     class CallStack : public ICallStack
     {
     private:
+        class CallStackImpl; // forward declaration
+
         std::unique_ptr<CallStackImpl> mCallStackImpl;
         CallStack(std::vector<std::unique_ptr<ICallStackFrame>>&& frames);
         CallStack(const CallStack& cs) = delete;

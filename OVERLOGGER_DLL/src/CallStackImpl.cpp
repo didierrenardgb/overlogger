@@ -6,19 +6,19 @@ namespace olg
 {
     static const olg::CallStackFrameNull sNullFrame;
 
-    CallStackImpl::CallStackImpl(std::vector<std::unique_ptr<ICallStackFrame>>&& frames)
+    CallStack::CallStackImpl::CallStackImpl(std::vector<std::unique_ptr<ICallStackFrame>>&& frames)
     : mCallStackFrames{std::forward<std::vector<std::unique_ptr<ICallStackFrame>>>(frames)}
     {
     }
 
-    CallStackImpl::~CallStackImpl() = default;
+    CallStack::CallStackImpl::~CallStackImpl() = default;
 
-    size_t CallStackImpl::getSize() const
+    size_t CallStack::CallStackImpl::getSize() const
     {
         return mCallStackFrames.size();
     }
 
-    const ICallStackFrame &CallStackImpl::getFrame(size_t index) const
+    const ICallStackFrame & CallStack::CallStackImpl::getFrame(size_t index) const
     {
         if (index < getSize())
         {
@@ -27,7 +27,7 @@ namespace olg
         return sNullFrame;
     }
 
-    const std::vector<std::unique_ptr<ICallStackFrame>> &CallStackImpl::getFrameList() const
+    const std::vector<std::unique_ptr<ICallStackFrame>> & CallStack::CallStackImpl::getFrameList() const
     {
         return mCallStackFrames;
     }
