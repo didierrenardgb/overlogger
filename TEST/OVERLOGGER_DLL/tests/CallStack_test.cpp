@@ -24,7 +24,7 @@ namespace olg::test
         v.push_back(std::make_unique<CallStackFrame>(0u, "funName", "fileName", 0u));
         CallStackFactory csf = CallStackFactory{};
         std::unique_ptr<ICallStack> cs = csf.create(std::move(v));
-        EXPECT_NE(cs.get(), nullptr);
+        ASSERT_NE(cs.get(), nullptr);
     }
 
     TEST(CallStackTest, ConstructionWithMultipleFrames) {
@@ -34,7 +34,7 @@ namespace olg::test
         v.push_back(std::make_unique<CallStackFrame>(1u, "funName2", "fileName2", 1u));
         CallStackFactory csf = CallStackFactory{};
         std::unique_ptr<ICallStack> cs = csf.create(std::move(v));
-        EXPECT_NE(cs.get(), nullptr);
+        ASSERT_NE(cs.get(), nullptr);
     }
 
     TEST(CallStackTest, ConstructionWithOneFrameNull) {
@@ -43,7 +43,7 @@ namespace olg::test
         v.push_back(std::make_unique<CallStackFrameNull>());
         CallStackFactory csf = CallStackFactory{};
         std::unique_ptr<ICallStack> cs = csf.create(std::move(v));
-        EXPECT_NE(cs.get(), nullptr);
+        ASSERT_NE(cs.get(), nullptr);
     }
 
 }
