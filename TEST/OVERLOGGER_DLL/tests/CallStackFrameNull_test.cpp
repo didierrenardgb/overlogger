@@ -8,8 +8,8 @@ namespace olg::test
     {
         CallStackFrameNull csfn{};
         EXPECT_EQ(0ull, csfn.getAddress());
-        EXPECT_EQ(olg::getNullString(), csfn.getFunctionName());
-        EXPECT_EQ(olg::getNullString(), csfn.getSourceFileName());
+        EXPECT_EQ(olg::getNullStdString(), csfn.getFunctionName());
+        EXPECT_EQ(olg::getNullStdString(), csfn.getSourceFileName());
         EXPECT_EQ(0ul, csfn.getCodeLine());
     }
 
@@ -24,8 +24,14 @@ namespace olg::test
         const ICallStackFrame* csfn_ptr = getCallStackFrameNull();
         const CallStackFrameNull csfn = *static_cast<const CallStackFrameNull*>(csfn_ptr);
         EXPECT_EQ(0ull, csfn.getAddress());
-        EXPECT_EQ(olg::getNullString(), csfn.getFunctionName());
-        EXPECT_EQ(olg::getNullString(), csfn.getSourceFileName());
+        EXPECT_EQ(olg::getNullStdString(), csfn.getFunctionName());
+        EXPECT_EQ(olg::getNullStdString(), csfn.getSourceFileName());
         EXPECT_EQ(0ul, csfn.getCodeLine());
+    }
+
+    TEST(CallStackFrameNullTest, getNullString)
+    {
+        EXPECT_EQ(getNullString(), olg::getNullStdString().c_str());
+        EXPECT_EQ(0, strcmp(getNullString(), olg::getNullStdString().c_str()));
     }
 }

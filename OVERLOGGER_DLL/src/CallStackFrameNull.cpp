@@ -25,7 +25,7 @@ namespace olg
         return 0ull;
     }
 
-    const std::string& getNullString()
+    const std::string& getNullStdString()
     {
         return kNullName;
     }
@@ -34,4 +34,9 @@ namespace olg
 const olg::ICallStackFrame* getCallStackFrameNull()
 {
     return &olg::cfn;
+}
+
+const char* getNullString()
+{
+    return olg::kNullName.c_str();
 }

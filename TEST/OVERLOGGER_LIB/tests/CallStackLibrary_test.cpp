@@ -20,16 +20,14 @@ namespace olg::test
 
     TEST(CallStackLibraryTest, getCallStackFrameNull)
     {
-        //TODO: "OLG::NULL"
-        const std::string nullString = "OLG::NULL";
         olg::Overlogger overlogger;
         std::shared_ptr<olg::CallStackLibrary> csl = overlogger.callStackLibrary();
         ASSERT_NE(csl, nullptr);
         const ICallStackFrame& csf = csl->getCallStackFrameNull();
         EXPECT_EQ(csf.getAddress(), 0ull);
         EXPECT_EQ(csf.getCodeLine(), 0ul);
-        EXPECT_EQ(csf.getFunctionName(), nullString);
-        EXPECT_EQ(csf.getSourceFileName(), nullString);
+        EXPECT_EQ(csf.getFunctionName(), csl->getNullString());
+        EXPECT_EQ(csf.getSourceFileName(), csl->getNullString());
     }
 
     TEST(CallStackLibraryTest, equals)
@@ -45,5 +43,13 @@ namespace olg::test
         const auto& csframe0 = cs->getFrame(0);
         EXPECT_FALSE(csl->equals(csframe0, csl->getCallStackFrameNull()));
         EXPECT_TRUE(csl->equals(csl->getCallStackFrameNull(), csl->getCallStackFrameNull()));
+    }
+
+    TEST(CallStackLibraryTest, getNullString)
+    {
+        olg::Overlogger overlogger;
+        std::shared_ptr<olg::CallStackLibrary> csl = overlogger.callStackLibrary();
+        EXPECT_FALSE(csl->getNullString().empty());
+        EXPECT_EQ(csl->getNullString(), csl->getNullString());
     }
 }

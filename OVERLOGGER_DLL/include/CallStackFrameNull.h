@@ -16,10 +16,11 @@ namespace olg
         virtual unsigned long long getAddress() const override;
     };
 
-    const std::string& getNullString();
+    const std::string& getNullStdString();
 }
 
 extern "C"
 {
     DLLEXPORT const olg::ICallStackFrame* getCallStackFrameNull();
+    DLLEXPORT const char* getNullString();
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <string_view>
 
 namespace olg 
 {
@@ -19,6 +20,7 @@ class CallStackLibrary
 		std::unique_ptr<ICallStackRetriever> createCallStackRetriever();
 		bool equals(ICallStackFrame const& frame1, ICallStackFrame const& frame2);
 		const ICallStackFrame& getCallStackFrameNull();
+		const std::string_view& getNullString();
 	private:
 		friend Overlogger;
 		struct CallStackLibraryImpl;
