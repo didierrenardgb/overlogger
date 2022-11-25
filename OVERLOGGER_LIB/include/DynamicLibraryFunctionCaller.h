@@ -31,8 +31,16 @@ namespace olg::dl
         {
         }
         
+        DynamicLibraryFunctionCaller(std::unique_ptr<IDynamicLibraryFunctionPointer> const& functionPointer, Args&&... args) :
+            mFunctionPointer(functionPointer)
+            , mOnCalled(nullptr)
+            , mArgs(std::forward<Args>(args)...)
+        {
+        }
+
         void call() const override
         {
+            // TODO: RetType void
             if constexpr (!std::is_const_v<std::remove_pointer_t<RetType>> && std::is_pointer_v<RetType>)
             {
                 RetType result = std::apply(reinterpret_cast<RetType(*)(Args...)>(handle(mFunctionPointer)), mArgs);
@@ -61,5 +69,12 @@ namespace olg::dl
         }, std::forward<Args>(args)...);
         caller.call();
         return result;
+    }
+
+    template<typename... Args>
+    void call(std::unique_ptr<IDynamicLibraryFunctionPointer> const& functionPointer, Args&&... args)
+    {
+        DynamicLibraryFunctionCaller<void, Args...> caller(functionPointer, std::forward<Args>(args)...);
+        caller.call();
     }
 }
