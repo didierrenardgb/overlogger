@@ -59,6 +59,28 @@ namespace olg::dl
         std::tuple<Args...> mArgs;
     };
 
+    template<typename... Args>
+    class DynamicLibraryFunctionCaller<void, Args...> : public IDynamicLibraryFunctionCaller
+    {
+    public:
+
+        DynamicLibraryFunctionCaller(std::unique_ptr<IDynamicLibraryFunctionPointer> const& functionPointer, Args&&... args) :
+            mFunctionPointer(functionPointer)
+            , mArgs(std::forward<Args>(args)...)
+        {
+        }
+
+        void call() const override
+        {
+            std::apply(reinterpret_cast<void(*)(Args...)>(handle(mFunctionPointer)), mArgs);
+        }
+
+    private:
+
+        std::unique_ptr<IDynamicLibraryFunctionPointer> const& mFunctionPointer;
+        std::tuple<Args...> mArgs;
+    };
+
     template<class RetType, typename... Args>
     Return<RetType> call(std::unique_ptr<IDynamicLibraryFunctionPointer> const& functionPointer, Args&&... args)
     {
@@ -70,6 +92,7 @@ namespace olg::dl
         caller.call();
         return result;
     }
+
 
     template<typename... Args>
     void call(std::unique_ptr<IDynamicLibraryFunctionPointer> const& functionPointer, Args&&... args)

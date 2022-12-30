@@ -71,31 +71,14 @@ namespace olg::test
         EXPECT_EQ(var, intReturnTestFunction());
     }
 
-
-    // TODO: RetType void
-
-    //TEST(DynamicLibraryFunctionCallerTest, call_voidReturnTestFunction)
-    //{
-    //    using namespace olg::dl;
-    //    DynamicLibraryFunctionPointerTest dlfptr{ voidReturnTestFunction };
-    //    std::unique_ptr<IDynamicLibraryFunctionPointer> testFunPtr{ &dlfptr };
-    //    call<>(testFunPtr);
-    //    EXPECT_TRUE(dlfptr.handled);
-    //    testFunPtr.release();
-    //    EXPECT_EQ(testFunPtr.get(), nullptr);
-    //}
-
-    // TODO: picante 2
-
-    //TEST(DynamicLibraryFunctionCallerTest, call_intRefReturnTestFunction)
-    //{
-    //    using namespace olg::dl;
-    //    DynamicLibraryFunctionPointerTest dlfptr{ voidReturnTestFunction };
-    //    std::unique_ptr<IDynamicLibraryFunctionPointer> testFunPtr{ &dlfptr };
-    //    Return<int&> var = call<int&>(testFunPtr);
-    //    EXPECT_TRUE(dlfptr.handled);
-    //    testFunPtr.release();
-    //    EXPECT_EQ(testFunPtr.get(), nullptr);
-    //    EXPECT_EQ(&var, &intRefReturnTestFunction());
-    //}
+    TEST(DynamicLibraryFunctionCallerTest, call_voidReturnTestFunction)
+    {
+        using namespace olg::dl;
+        DynamicLibraryFunctionPointerTest dlfptr{ voidReturnTestFunction };
+        std::unique_ptr<IDynamicLibraryFunctionPointer> testFunPtr{ &dlfptr };
+        call<>(testFunPtr);
+        EXPECT_TRUE(dlfptr.handled);
+        testFunPtr.release();
+        EXPECT_EQ(testFunPtr.get(), nullptr);
+    }
 }
