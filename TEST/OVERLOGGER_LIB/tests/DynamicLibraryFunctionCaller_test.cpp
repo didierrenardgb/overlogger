@@ -2,20 +2,6 @@
 #include "DynamicLibraryFunctionCaller.h"
 #include "IDynamicLibraryFunctionPointer.h"
 
-/*
-    template<class RetType, typename... Args>
-    Return<RetType> call(std::unique_ptr<IDynamicLibraryFunctionPointer> const& functionPointer, Args&&... args)
-    {
-        Return<RetType> result;
-        DynamicLibraryFunctionCaller<RetType, Args...> caller(functionPointer, [&result](Return<RetType>&& ret)
-        {
-            result = std::move(ret);
-        }, std::forward<Args>(args)...);
-        caller.call();
-        return result;
-    }
-*/
-
 namespace olg::test
 {
     int intReturnTestFunction()
@@ -27,10 +13,11 @@ namespace olg::test
     {
     }
 
-    static int number = 42;
-    int& intRefReturnTestFunction()
+    static int kValue = 10;
+    int* pointerReturnTestFunction()
     {
-        return number;
+        int* pointer = &kValue;
+        return pointer;
     }
 
     class DynamicLibraryFunctionPointerTest : public olg::dl::IDynamicLibraryFunctionPointer
@@ -49,15 +36,6 @@ namespace olg::test
         }
 
     };
-
-    /*
-        nada
-        value
-        lval reference
-        rval reference
-        callable object
-        pointer
-    */
 
     TEST(DynamicLibraryFunctionCallerTest, call_intReturnTestFunction)
     {
@@ -80,5 +58,18 @@ namespace olg::test
         EXPECT_TRUE(dlfptr.handled);
         testFunPtr.release();
         EXPECT_EQ(testFunPtr.get(), nullptr);
+    }
+
+    TEST(DynamicLibraryFunctionCallerTest, call_pointerReturnTestFunction)
+    {
+        using namespace olg::dl;
+        DynamicLibraryFunctionPointerTest dlfptr{ pointerReturnTestFunction };
+        std::unique_ptr<IDynamicLibraryFunctionPointer> testFunPtr{ &dlfptr };
+        Return<int*> var = call<int*>(testFunPtr);
+        EXPECT_TRUE(dlfptr.handled);
+        testFunPtr.release();
+        EXPECT_EQ(testFunPtr.get(), nullptr);
+        EXPECT_EQ(var.get(), pointerReturnTestFunction());
+        var.release();
     }
 }

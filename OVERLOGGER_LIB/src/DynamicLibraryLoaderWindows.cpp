@@ -8,7 +8,11 @@ namespace olg::dl
     std::unique_ptr<IDynamicLibrary> DynamicLibraryLoaderWindows::load(const std::string & path) const
     {
         const HMODULE library = LoadLibrary((path + ".dll").c_str());
-        return std::make_unique<DynamicLibraryWindows>(library);
+        if (library != NULL)
+        {
+            return std::make_unique<DynamicLibraryWindows>(library);
+        }
+        return nullptr;
     }
 
 }
