@@ -1,0 +1,15 @@
+macro(add_standard_dependency dependency_name dependency_git_url)
+    include(FetchContent)
+    FetchContent_Declare(${dependency_name} GIT_REPOSITORY ${dependency_git_url})
+    FetchContent_MakeAvailable(${dependency_name})
+
+    add_subdirectory(${${dependency_name}_SOURCE_DIR}/project ${${dependency_name}_BINARY_DIR})
+    include_directories(${strong_SOURCE_DIR}/include)
+
+    if(TARGET ${dependency_name})
+        set_target_properties(${dependency_name} PROPERTIES FOLDER "_external")
+    endif()
+    if(TARGET ${dependency_name}.tests)
+        set_target_properties(${dependency_name}.tests PROPERTIES FOLDER "_external")
+    endif()
+endmacro()
